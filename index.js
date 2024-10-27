@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express=require("express")
 const mongoose=require("mongoose")
 const app=express()
@@ -12,13 +13,10 @@ app.use(express.urlencoded({
     extended: true
 }));
 
-// const productData = [];
-
-mongoose.connect("mongodb+srv://syedshabbarraza207:2071975@cluster0.zdgv7.mongodb.net/crud").then(()=>{
+mongoose.connect(process.env.MONGODB_URI).then(()=>{
         console.log("Connected to mongodb");
 
         //API's here
-
         
 //post api
 app.post("/api/add_product",async (req, res) => {
@@ -36,24 +34,6 @@ app.post("/api/add_product",async (req, res) => {
             'status':e.message
         })
     }
-
-
-    // const pdata = {
-    //     "id": productData.length + 1,
-    //     "pname": req.body.pname,
-    //     "pprice": req.body.pprice,
-    //     "pdesc": req.body.pdesc
-    // };
-
-    // productData.push(pdata);
-    // console.log("Final", pdata);
-
-    // res.status(200).send({
-    //     "status_code": 200,
-    //     "message": "Product added successfully",
-    //     "product": pdata
-    // });
-
 });
 
 //Get api
@@ -67,17 +47,6 @@ app.get("/api/get_product",async (req, res) => {
         res.status(500).json(e.message);
     }
 
-    // if (productData.length > 0) {
-    //     res.status(200).send({
-    //         'status_code': 200,
-    //         'products': productData,
-    //     })
-    // } else {
-    //     res.status(200).send({
-    //         'status_code': 200,
-    //         'products': [],
-    //     })
-    // }
 });
 
 //Update api
@@ -95,18 +64,6 @@ try{
     res.send(e.message);
 }
 
-
-    // let id = req.params.id * 1;
-    // let productToUpdate = productData.find(p => p.id === id);
-    // let index = productData.indexOf(productToUpdate);//Logic not understood
-
-    // productData[index] = req.body;
-
-    // res.status(200).send({
-    //     "status": "success",
-    //     "message": "product updated successfully",
-    // })
-    
 })
 
 //delete api
@@ -122,19 +79,6 @@ try{
 }catch(e){
     res.json(e.message);
 }
-
-
-    // let id = req.params.id * 1;
-    // let productToUpdate = productData.find(p => p.id === id);
-    // let index = productData.indexOf(productToUpdate);//Logic not understood
-
-    // productData.splice(index, 1);
-
-    // console.log("Product deleted successfully");
-    // res.status(200).send({
-    //     "status": "success",
-    //     'message': "Product deleted",
-    // })
 })
 
 
@@ -142,21 +86,8 @@ try{
     console.log("failed to connect to mongodb");
 })
 
-const userSchema=new mongoose.Schema({
-    name:String,
-    age:Number
-})
-
-const userModel=mongoose.model("emp", userSchema);
-
-const emp1=new userModel({
-    name:"Shabbar Raza",
-    age:20
-    
-})
-emp1.save();
-
-app.listen(2000,()=>{
-console.log("server is running at 2000");
+const PORT = process.env.PORT || 2000;
+app.listen(PORT,()=>{
+console.log("server is running");
 });
 
