@@ -46,7 +46,7 @@ app.get("/api/get_product", async (req, res) => {
 });
 
 // PATCH API to update a product
-app.patch("/api/update/:id", async (req, res) => {
+app.post("/api/update/:id", async (req, res) => {
     let id = req.params.id;
     let updatedData = req.body;
     let options = { new: true };
@@ -60,7 +60,7 @@ app.patch("/api/update/:id", async (req, res) => {
 });
 
 // DELETE API to delete a product
-app.delete("/api/delete/:id", async (req, res) => {
+app.post("/api/delete/:id", async (req, res) => {
     let id = req.params.id;
 
     try {
